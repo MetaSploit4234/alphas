@@ -85,14 +85,15 @@ LOGOUT_REDIRECT_URL = '/login/'
 # MySQL Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'two_fa_project',
-        'USER': 'root',
-        'PASSWORD': 'salaa',
-        'HOST': '127.0.0.1',
-        'PORT': '3001',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dynamicdatabase',
+        'USER': 'xkzeqkalis',
+        'PASSWORD': 'rgYC9i5SgBuIkO6$',
+        'HOST': 'dynamicserver.postgres.database.azure.com',
+        'PORT': '5432',
     }
 }
+
 
 # Password Validators
 AUTH_PASSWORD_VALIDATORS = [
