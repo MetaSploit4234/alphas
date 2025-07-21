@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Create Account | 2FA Project{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/register.css' %}">
+
+<form action="{% url 'register' %}" method="POST" class="form-container">
+    <input type="text" name="bot_catcher" style="display:none;">
+    {% csrf_token %}
+    <h2>Create Your Account</h2>
+    <p class="instruction">After creating your account, you’ll set up Google Authenticator for extra security.</p>
+
+    {% if messages %}
+        <div class="alert-messages">
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="group">
+        <div class="input-group">
+            <label for="first_name">First Name</label>
+            <div class="error" id="error-first-name"></div>
+            <input type="text" id="first-name" name="first_name" placeholder="Enter your first name" value="{{ request.POST.first_name }}" required>
+        </div>
+        <div class="input-group">
+            <label for="last_name">Last Name</label>
+            <div class="error" id="error-last-name"></div>
+            <input type="text" id="last-name" name="last_name" placeholder="Enter your last name" value="{{ request.POST.last_name }}" required>
+        </div>
+    </div>
+    <div class="group">
+        <div class="input-group">
+            <label for="email">Email Address</label>
+            <div class="error" id="error-email"></div>
+            <input type="email" id="email" name="email" placeholder="Enter your email" value="{{ request.POST.email }}" required>
+        </div>
+        <div class="input-group">
+            <label for="phone">Phone Number</label>
+            <div class="error" id="error-phone" style="color: red;"></div>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" value="{{ request.POST.phone }}" required>
+        </div>
+    </div>
+   <div class="group">
+        <div class="input-group">
+            <label for="password">Password</label>
+            <div class="error" id="error-password"></div>
+            <input type="password" id="password" name="password" placeholder="Enter a password" required>
+        </div>
+
+        <div class="input-group">
+            <label for="confirm_password">Confirm Password</label>
+            <div class="error" id="error-confirm-password"></div>
+            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
+        </div>
+    </div>        
+
+    <div class="checkbox-group">
+        <input type="checkbox" id="show-pass" />
+        <label for="show-pass">Show password</label>
+    </div>
+
+    <button type="submit" class="btn-primary full-width">Register</button>
+
+    <div class="extra-links">
+        <span> | </span>
+        <a href="{% url 'login' %}" class="link">Already have an account? Login</a>
+        <span> | </span>
+    </div>
+</form>
+
+<script src="{% static 'core/js/register.js' %}"></script>
+{% endblock %}

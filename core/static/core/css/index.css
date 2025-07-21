@@ -1,0 +1,34 @@
+.global{
+    align-items: center;
+    justify-content: center;
+}
+.global h2{
+    color: grey;
+    font-weight: bolder;
+    font-size: 30px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4cm;
+    margin-top: 2rem;
+}
+button{
+    width: 100px;
+    padding: 12px;
+    background-color: rgb(106, 106, 216);
+    border-radius: 10px;
+    color: white;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-color: white;
+    transition: 0.5s ease-in;
+}
+button:hover{
+    transition: 0.3s ease;
+    background-color: green;
+}

@@ -1,0 +1,70 @@
+.verify-login-wrapper {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.verify-login-wrapper h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+.verify-login-wrapper .instruction {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.verify-form .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.verify-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.verify-form input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #0051ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #003dcc;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+.links {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.links a {
+    color: #0051ff;
+    text-decoration: none;
+}

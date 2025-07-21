@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Reset Method | 2FA Project{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/select-reset-method.css' %}">
+<form method="POST" action="{% url 'handle-reset-method' %}" class="reset-password-form">
+  {% csrf_token %}
+  <label class="radio-option">
+    <input type="radio" name="resetOption" value="email" checked>
+    <span class="custom-radio"></span>
+    Reset via Email
+  </label>
+
+  <label class="radio-option">
+    <input type="radio" name="resetOption" value="authenticator">
+    <span class="custom-radio"></span>
+    Reset via Authenticator
+  </label>
+
+  <button type="submit" class="submit-btn">Continue</button>
+</form>
+
+{% endblock %}

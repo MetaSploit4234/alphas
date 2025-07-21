@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Setup Authenticator | 2FA Project{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/setup-authenticator.css' %}">
+
+<div class="authenticator-setup-container">
+    <h2>Setup Two-Factor Authentication</h2>
+    <p>To enable 2FA, scan the QR code below <strong>or</strong> copy and paste the secret key into your authenticator app.</p>
+
+    <div class="qr-section">
+        {% if qr_image_url %}
+            <img src="{{ qr_image_url }}" alt="Scan QR Code" class="qr-code">
+        {% else %}
+            <p style="color: red;">QR code could not be generated. Please refresh the page or try again later.</p>
+        {% endif %}
+    </div>
+
+    <div class="secret-key-section">
+        <label for="secret_key">Secret Key</label>
+        <input type="text" id="secret_key" name="secret_key" value="{{ secret_key }}" readonly>
+        <p class="note">Copy this key into your authenticator app if you can't scan the QR code.</p>
+    </div>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" class="authenticator-form">
+        {% csrf_token %}
+        <label for="token">Enter the 6-digit code from your authenticator app</label>
+        <input type="text" id="token" name="token" placeholder="e.g., 123456" maxlength="6" required>
+
+        <button type="submit" class="btn-primary">Verify & Activate</button>
+    </form>
+
+    <div class="extra-info">
+        <p>Need help? <a href="#">See setup guide</a></p>
+    </div>
+</div>
+
+{% endblock %}

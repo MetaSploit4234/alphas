@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Welcome | 2FA Project{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+    <div class="global">
+        <h2>Understanding Authentications</h2>
+        <div class="button-container">
+            <form action="{% url 'login' %}" method="get">
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <form action="{% url 'register' %}" method="get">
+                <button type="submit" class="btn-secondary">Register</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

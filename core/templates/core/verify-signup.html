@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Verify Signup | 2FA Project{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/verify-login.css' %}">
+
+<div class="verify-login-wrapper">
+    <h2>Verify Your Email</h2>
+    <p class="instruction">
+        We've sent a One-Time Password (OTP) to your email.<br>
+        Please enter it below to verify your email and continue with the setup.
+    </p>
+
+    <form method="POST" action="{% url 'verify-signup' %}" class="verify-form">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="otp-email">Email OTP Code</label>
+            <input type="text" id="otp-email" name="otp-email" placeholder="Enter 6-digit OTP" maxlength="6" required>
+        </div>
+
+        {% if messages %}
+            <div class="error">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn-primary">Verify</button>
+    </form>
+
+    <div class="links">
+        <p>Didn't get the code? <a href="{% url 'resend-otp' %}">Resend OTP</a></p>
+    </div>
+</div>
+{% endblock %}

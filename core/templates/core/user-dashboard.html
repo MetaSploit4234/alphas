@@ -1,0 +1,163 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}User Dashboard | 2FA Project{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/user.css' %}">
+
+<header class="navbar">
+  <h1>User Panel</h1>
+  <nav class="nav-links">
+    <a href="#" data-id="home">🏠 Home</a>
+    <a href="#" data-id="view-logs">View Logs</a>
+    <a href="#" data-id="settings">Settings</a>
+    <a href="#" data-id="profile">🧑‍🏫 Profile</a>
+  </nav>
+
+  <div id="time" style="color: white; font-weight: bold; margin-left: 20px;"></div>
+  
+  <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+    {% csrf_token %}
+  </form>
+  <button id="logout" class="logout">Log Out</button>
+</header>
+
+<main class="content">
+  <!-- Home Section -->
+  <section id="home" class="section" >
+    <h2>Welcome to Your Dashboard</h2>
+    <p>This is your main hub. Use the navigation bar to view logs, change settings, or update your profile.</p>
+    <div id="notes">
+      <h3>What you can do<h3>
+      <div id="all">
+        <div class="group">
+          <h4>View Logs</h4>
+          <p>This parts has all your logins information such as phone, time etc</p>
+        </div>
+        <div class="group">
+          <h4>Settings</h4>
+          <p>Has features such as update password, prefered 2fa method etc</p>
+        </div>
+        <div class="group">
+          <h4>Profile</h4>
+          <p>You can view your info and update as well</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logs Section -->
+  <section id="view-logs" class="section">
+    <h2>📋 System Logs</h2>
+    <p>Monitor recent activities, login attempts, and other audit events below.</p>
+
+    {% if logs %}
+    <table style="width:100%; border-collapse: collapse; margin-top: 1em;">
+      <thead>
+        <tr style="background-color: #333; color: #fff;">
+          <th style="padding: 10px; border: 1px solid #ddd;">Type</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Date & Time</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Details</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr style="border-bottom: 1px solid #ccc;">
+          <td style="padding: 8px; border: 1px solid #ddd;">{{ log.type }}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">{{ log.datetime|date:"Y-m-d H:i:s" }}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">{{ log.details }}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">{{ log.contact }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No logs found.</p>
+    {% endif %}
+  </section>
+
+
+  <!-- Settings Section -->
+  <section id="settings" class="section" hidden>
+    <h2>Settings</h2>
+
+    <!-- Change Password -->
+    <div class="settings-block">
+      <h3>Change Password</h3>
+      <form method="post" class="styled-form" action="{% url 'change_password' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Your Password Here</button>
+      </form>
+    </div>
+
+    <!-- Update 2FA Method -->
+    <div class="settings-block">
+      <h3>Update 2FA Method</h3>
+      <form method="post" action="{% url 'update_2fa' %}">
+        {% csrf_token %}
+        <label>
+          <input type="radio" name="method" value="whatsapp" {% if user.profile.two_fa_method == 'whatsapp' %}checked{% endif %}> WhatsApp
+        </label><br>
+        <label>
+          <input type="radio" name="method" value="email" {% if user.profile.two_fa_method == 'email' %}checked{% endif %}> Email
+        </label><br>
+        <button type="submit">Update 2FA Method</button>
+      </form>
+    </div>
+
+    <!-- Manage Notifications -->
+    <div class="settings-block">
+      <h3>Manage Notifications</h3>
+      <form method="post" action="{% url 'update_notifications' %}">
+        {% csrf_token %}
+        <label>
+          <input type="checkbox" name="login_alerts" {% if user.profile.login_alerts %}checked{% endif %}> Login Alerts
+        </label><br>
+        <label>
+          <input type="checkbox" name="email_alerts" {% if user.profile.email_alerts %}checked{% endif %}> Email Alerts
+        </label><br>
+        <button type="submit">Save Preferences</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Profile Section -->
+  <section id="profile" class="section" hidden>
+  <h2>User Profile</h2>
+  <p>View and edit your personal details below:</p>
+
+  <form id="update-profile" method="post" action="{% url 'update_profile' %}" class="styled-form">
+    {% csrf_token %}
+    <div class="global">
+      <div id="input-group">
+        <label>
+          First Name:
+        <input type="text" name="first_name" value="{{ user.first_name }}" required>
+        </label><br>
+        <label>
+          Last Name:
+          <input type="text" name="last_name" value="{{ user.last_name }}" required>
+        </label><br>
+      <div>
+      <div id="input-group">
+        <label>
+          Email:
+          <input type="email" name="email" value="{{ user.email }}" required>
+        </label><br>
+        <label>
+          Phone:
+          <input type="text" name="phone" value="{{ user.phone }}" required>
+        </label><br>
+      <div>
+      <button type="submit">Update Profile</button>
+    </div>
+  </form>
+</section>
+
+</main>
+
+<script src="{% static 'core/js/user.js' %}"></script>
+{% endblock %}

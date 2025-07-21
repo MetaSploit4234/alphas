@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}2FA Project{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="{% static 'core/css/style.css' %}" rel="stylesheet" />
+</head>
+{% load django_browser_reload %}
+{% django_browser_reload_script %}
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header>
+        <h1>2FA System</h1>
+    </header>
+
+    <main class="flex-1 container mx-auto p-6 flex flex-col justify-center items-center min-h-[80vh]">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        &copy; {{ now|date:"Y" }} 2FA Authentication System. All rights reserved.
+    </footer>
+
+</body>
+</html>

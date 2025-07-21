@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Reset Password via Authenticator{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/reset-method.css' %}">
+
+<div class="reset-container">
+  <h2>Reset Password via Authenticator</h2>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form class="reset-form" method="POST">
+    {% csrf_token %}
+
+    {% if not show_password_fields %}
+      
+      <label for="totp_code">Authenticator Code</label>
+      <input type="text" name="totp_code" id="totp_code" placeholder="Enter 6-digit code from your app" maxlength="6" pattern="\d{6}" required>
+
+      <button type="submit" name="action" value="verify_totp" class="btn">
+        Verify Code
+      </button>
+
+    {% else %}
+
+      <label for="password">New Password</label>
+      <input type="password" name="password" id="auth-new-password" placeholder="Create new password" required>
+
+      <label for="confirm_password">Confirm Password</label>
+      <input type="password" name="confirm_password" id="auth-confirm-password" placeholder="Confirm new password" required>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="auth-show-pass">
+        <label for="auth-show-pass">Show password</label>
+      </div>
+
+      <button type="submit" name="action" value="update_password" class="btn">
+        Reset Password
+      </button>
+    {% endif %}
+  </form>
+</div>
+
+<script>
+  const toggle = document.getElementById("auth-show-pass");
+  const newPass = document.getElementById("auth-new-password");
+  const confirmPass = document.getElementById("auth-confirm-password");
+
+  if (toggle) {
+    toggle.addEventListener("change", () => {
+      const type = toggle.checked ? "text" : "password";
+      newPass.type = type;
+      confirmPass.type = type;
+    });
+  }
+</script>
+{% endblock %}

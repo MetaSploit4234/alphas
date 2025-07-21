@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Success | 2FA Project{% endblock %}
+
+{% block content %}
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black; 
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .success-message {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    user-select: none;
+  }
+</style>
+
+<div class="success-message">
+    Signup Verified Successfully!<br>
+    Redirecting to Login...
+</div>
+
+<script>
+  setTimeout(function() {
+    window.location.href = "{% url 'login' %}";
+  }, 5000);
+</script>
+{% endblock %}

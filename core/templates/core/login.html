@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Login | 2FA Project{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+<div class="login-wrapper">
+    <h2>Login</h2>
+    <form id="login-form" action="{% url 'login' %}" method="POST" class="login-form">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="phone">Phone</label>
+            <div class="error" id="error-phone"></div>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <div class="error" id="error-password"></div>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="show-pass">
+            <label for="show-pass">Show password</label>
+        </div>
+
+        <div class="error" id="error-global"></div>
+
+        <button type="submit" class="btn">Login</button>
+    </form>
+    {% if messages%}
+        <div class="error" id="error-global"></div>
+        {% for message in messages %}
+            {{ message}}
+        {% endfor%}
+    {% endif %}
+    <div class="links">
+        <a href="{% url 'select-reset-method' %}">Reset password?</a>
+        <a href="{% url 'register' %}">Create Account?</a>
+    </div>
+
+</div>
+<script src="{% static 'core/js/login.js' %}"></script>
+{% endblock %}

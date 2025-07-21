@@ -1,0 +1,74 @@
+body {
+  background-color: #f0f4f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.reset-container {
+  width: 90%;
+  max-width: 420px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+.reset-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.6rem;
+  color: #2c3e50;
+  border-bottom-style: ridge;
+}
+.reset-form {
+  display: flex;
+  flex-direction: column;
+}
+.reset-form label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #34495e;
+}
+.reset-form input[type="email"],
+.reset-form input[type="tel"],
+.reset-form input[type="text"],
+.reset-form input[type="password"] {
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.reset-form input:focus {
+  border-color: #1d72b8;
+  background-color: transparent;
+}
+
+.reset-form .btn {
+  padding: 10px;
+  background-color: #1d72b8;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reset-form .btn:hover {
+  background-color: #155a96;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #1d72b8;
+}
+
+
+

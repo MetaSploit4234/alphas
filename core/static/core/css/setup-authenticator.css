@@ -1,0 +1,135 @@
+.authenticator-setup-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+.authenticator-setup-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+  color: #333;
+  text-align: center;
+}
+
+.authenticator-setup-container p {
+  color: #555;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.qr-section {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.qr-code {
+  width: 180px;
+  height: 180px;
+  border-radius: 0.5rem;
+  border: 2px solid #f0f0f0;
+}
+
+.secret-key-section {
+  margin-top: 1rem;
+}
+
+.secret-key-section label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.secret-key-section input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background: #fafafa;
+  color: #333;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 0.3rem;
+}
+
+.authenticator-form {
+  margin-top: 1.5rem;
+}
+
+.authenticator-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.authenticator-form input[type="text"] {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.7rem 0;
+  background: #007acc;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #005fa3;
+}
+
+.messages {
+  margin-top: 1rem;
+}
+
+.messages .error,
+.messages .warning,
+.messages .success,
+.messages .info {
+  padding: 0.6rem;
+  margin-bottom: 0.4rem;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.messages .error {
+  background: #ffe5e5;
+  color: #a80000;
+}
+
+.messages .success {
+  background: #e6f8ec;
+  color: #0d6c3c;
+}
+
+.extra-info {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.extra-info a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.extra-info a:hover {
+  text-decoration: underline;
+}

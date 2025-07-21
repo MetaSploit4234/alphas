@@ -1,0 +1,108 @@
+.login-wrapper {
+  max-width: 350px;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-wrapper h2 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #555;
+  user-select: none;
+}
+
+input[type="tel"],
+input[type="password"] {
+  padding: 12px 14px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline-offset: 2px;
+  outline-color: transparent;
+}
+.error{
+  color: red;
+  letter-spacing: 1px;
+  margin-left: 10px;
+}
+input[type="tel"]:focus,
+input[type="password"]:focus {
+  border-color: #6c7fe1;
+  box-shadow: 0 0 8px rgba(108, 127, 225, 0.5);
+  outline: none;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+.btn {
+  background-color: #6c7fe1;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #5769c9;
+  outline: none;
+}
+
+.links {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #666;
+  user-select: none;
+}
+
+.links a {
+  color: #6c7fe1;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.links a:hover,
+.links a:focus {
+  color: #5769c9;
+  outline: none;
+}

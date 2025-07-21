@@ -1,0 +1,150 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | 2FA Project{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/admin.css' %}">
+
+<div class="admin-dashboard">
+  <aside class="sidebar">
+    <div class="logo"><h2>Admin Panel</h2></div>
+    <nav class="menu">
+      <ul>
+        <li><a href="?section=users" class="{% if section == 'users' %}active{% endif %}">Manage Users</a></li>
+        <li><a href="?section=logs" class="{% if section == 'logs' %}active{% endif %}">View Security Logs</a></li>
+        <li><a href="?section=otp" class="{% if section == 'otp' %}active{% endif %}">Manage OTP Settings</a></li>
+      </ul>
+    </nav>
+    <div class="profile-section">
+      <hr>
+      <div class="admin-profile">
+        <img src="{% static 'core/images/profile.png' %}" alt="Admin" />
+        <span>{{ request.user.first_name|default:"Admin" }}</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <!-- Users Section -->
+    <section class="section" id="manage-users" {% if section != 'users' %}hidden{% endif %}>
+      <h2>Manage Users</h2>
+      <form method="POST" action="{% url 'admin-elevate-roles' %}">
+        {% csrf_token %}
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Date Joined</th>
+              <th>Elevate Role</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in users %}
+              <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.phone }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.role }}</td>
+                <td>{{ u.date_joined|date:"Y-m-d H:i" }}</td>
+                <td>
+                  <select name="role_{{ u.id }}">
+                    <option value="user" {% if u.role == 'user' %}selected{% endif %}>User</option>
+                    <option value="security" {% if u.role == 'security' %}selected{% endif %}>Security</option>
+                    <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>Admin</option>
+                  </select>
+                </td>
+                <td>
+                  <button type="submit" name="update_user" value="{{ u.id }}">Update</button>
+                </td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="7">No users found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+    </section>
+
+    <!-- Security Logs Section -->
+    <section class="section" id="view-security-logs" {% if section != 'logs' %}hidden{% endif %}>
+      <h2>Security Logs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th><th>Role</th><th>Action</th><th>Time</th><th>IP</th><th>Device</th><th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+            <tr>
+              <td>{{ log.user.phone|default:"-" }}</td>
+              <td>{{ log.user.role|default:"-" }}</td>
+              <td>{{ log.event_type }}</td>
+              <td>{{ log.timestamp|date:"Y-m-d H:i" }}</td>
+              <td>{{ log.ip_address }}</td>
+              <td>{{ log.user_agent|truncatechars:30 }}</td>
+              <td>{{ log.details|truncatechars:50 }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="7">No logs found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- OTP Settings Section -->
+    <section class="section" id="manage-otps" {% if section != 'manage-otps' %}hidden{% endif %}>
+      <h2>Manage OTPs</h2>
+      <form method="get" action="">
+        <label for="user_id">Select User:</label>
+        <select name="user_id" id="user_id" onchange="this.form.submit()">
+          <option value="">-- Choose User --</option>
+          {% for u in all_users %}
+            <option value="{{ u.id }}" {% if selected_user and selected_user.id == u.id %}selected{% endif %}>
+              {{ u.phone }} ({{ u.email }})
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+
+      {% if otp_logs %}
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Purpose</th>
+              <th>Sent Via (Email / Authenticator)</th>
+              <th>Created At</th>
+              <th>Expires At</th>
+              <th>Verified</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for otp in otp_logs %}
+              <tr>
+                <td>{{ otp.code }}</td>
+                <td>{{ otp.purpose }}</td>
+                <td>{{ otp.sent_via|default:"Authenticator" }}</td>
+                <td>{{ otp.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ otp.expires_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ otp.verified|yesno:"✔,✖" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% elif selected_user %}
+        <p>No OTP logs found for this user.</p>
+      {% endif %}
+    </section>
+
+  </main>
+</div>
+
+<script src="{% static 'core/js/admin.js' %}"></script>
+{% endblock %}
+``

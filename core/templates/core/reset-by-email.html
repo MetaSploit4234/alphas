@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Reset via Email{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/reset-method.css' %}">
+
+<div class="reset-container">
+  <h2>Reset Password via Email</h2>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form class="reset-form" method="POST">
+    {% csrf_token %}
+
+    {% if not show_otp_form %}
+      <!-- Step 1: Enter Email -->
+      <label for="email">Email Address</label>
+      <input type="email" name="email" id="email" placeholder="Enter your email"
+             value="{{ email_value }}" required>
+
+      <button type="submit" name="action" value="get_otp" class="btn">Get OTP</button>
+
+    {% else %}
+      <!-- Step 2: OTP and New Password -->
+      <label for="otp">Enter OTP</label>
+      <input type="text" name="otp" id="otp" placeholder="Enter received OTP" required>
+
+      <label for="password">New Password</label>
+      <input type="password" name="password" id="email-new-password" placeholder="Create password" required>
+
+      <label for="confirm_password">Confirm Password</label>
+      <input type="password" name="confirm_password" id="email-confirm-password" placeholder="Confirm password" required>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="email-show-pass">
+        <label for="email-show-pass">Show password</label>
+      </div>
+
+      <button type="submit" name="action" value= "verify_otp" class="btn">Reset Password</button>
+    {% endif %}
+  </form>
+</div>
+
+<script>
+  const toggle = document.getElementById("email-show-pass");
+  const newPass = document.getElementById("email-new-password");
+  const confirmPass = document.getElementById("email-confirm-password");
+
+  if (toggle) {
+    toggle.addEventListener("change", () => {
+      const type = toggle.checked ? "text" : "password";
+      newPass.type = type;
+      confirmPass.type = type;
+    });
+  }
+</script>
+{% endblock %}
