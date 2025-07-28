@@ -96,32 +96,30 @@
     <!-- Update 2FA Method -->
     <div class="settings-block">
       <h3>Update 2FA Method</h3>
+      <p>Your current 2FA method: <strong>{{ request.user.profile.two_fa_method|capfirst }}</strong></p>
       <form method="post" action="{% url 'update_2fa' %}">
         {% csrf_token %}
-        <label>
-          <input type="radio" name="method" value="whatsapp" {% if user.profile.two_fa_method == 'whatsapp' %}checked{% endif %}> WhatsApp
-        </label><br>
-        <label>
-          <input type="radio" name="method" value="email" {% if user.profile.two_fa_method == 'email' %}checked{% endif %}> Email
-        </label><br>
+        
+        <div>
+          <label for="authenticator">
+            <input type="radio" id="authenticator" name="method" value="authenticator"
+              {% if user.profile.two_fa_method == 'authenticator' %}checked{% endif %}>
+            Use Authenticator App
+          </label>
+        </div>
+
+        <div>
+          <label for="email">
+            <input type="radio" id="email" name="method" value="email"
+              {% if user.profile.two_fa_method == 'email' %}checked{% endif %}>
+            Use Email
+          </label>
+        </div>
+
         <button type="submit">Update 2FA Method</button>
       </form>
     </div>
-
-    <!-- Manage Notifications -->
-    <div class="settings-block">
-      <h3>Manage Notifications</h3>
-      <form method="post" action="{% url 'update_notifications' %}">
-        {% csrf_token %}
-        <label>
-          <input type="checkbox" name="login_alerts" {% if user.profile.login_alerts %}checked{% endif %}> Login Alerts
-        </label><br>
-        <label>
-          <input type="checkbox" name="email_alerts" {% if user.profile.email_alerts %}checked{% endif %}> Email Alerts
-        </label><br>
-        <button type="submit">Save Preferences</button>
-      </form>
-    </div>
+  <!-- notifications-->
   </section>
 
   <!-- Profile Section -->

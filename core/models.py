@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.conf import settings
-#Custome User
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, phone, password=None, **extra_fields):
         if not phone:
@@ -20,29 +20,28 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(phone, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    ROLE_CHOICES = (('admin', 'Admin'), ('user', 'User'), ('security', 'Security'),)
-    # Basic fields
+    ROLE_CHOICES = (
+        ('admin', 'Admin'),
+        ('user', 'User'),
+        ('security', 'Security'),
+    )
+
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, unique=True)
-    # Role and metadata
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
     date_joined = models.DateTimeField(default=timezone.now)
-    # Permissions
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    # Two-Factor Auth fields
     totp_secret = models.CharField(max_length=32, blank=True, null=True)
     is_two_factor_enabled = models.BooleanField(default=False)
-    
+    authenticator_secret = models.CharField(max_length=32, blank=True, null=True)
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
-
-    authenticator_secret = models.CharField(max_length=32, blank=True, null=True)
-
 
     def __str__(self):
         return f"{self.phone} ({self.role})"
@@ -52,9 +51,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Users"
         ordering = ['-date_joined']
 
-
-totp_secret = models.CharField(max_length=32, null=True, blank=True)
-
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -63,7 +59,7 @@ class Profile(models.Model):
         ("google", "Google Authenticator"),
     ]
 
-    two_fa_method = models.CharField(max_length=20, choices=TWO_FA_CHOICES, default="google")
+    preferred_2fa_method = models.CharField(max_length=20, choices=TWO_FA_CHOICES, default="google")
     login_alerts = models.BooleanField(default=True)
     email_alerts = models.BooleanField(default=True)
 
@@ -73,7 +69,6 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "User Profile"
         verbose_name_plural = "User Profiles"
-
 
 class OTPLog(models.Model):
     PURPOSE_CHOICES = (
@@ -116,7 +111,6 @@ class OTPLog(models.Model):
         verbose_name = "OTP Log"
         verbose_name_plural = "OTP Logs"
 
-
 class LoginAttempt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='login_attempts')
     ip_address = models.GenericIPAddressField()
@@ -132,7 +126,6 @@ class LoginAttempt(models.Model):
         ordering = ['-timestamp']
         verbose_name = "Login Attempt"
         verbose_name_plural = "Login Attempts"
-
 
 class SecurityLog(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
@@ -150,7 +143,6 @@ class SecurityLog(models.Model):
         ordering = ['-timestamp']
         verbose_name = "Security Log"
         verbose_name_plural = "Security Logs"
-
 
 class OTPSetting(models.Model):
     METHOD_CHOICES = [

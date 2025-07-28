@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Verify Login | 2FA Project{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/verify-login.css' %}">
+
+<div class="verify-login-wrapper">
+    <h2>Enter Verification Code</h2>
+    <p class="instruction">Please enter the 6-digit verification code from your <strong>Authenticator app</strong></p>
+    <form method="POST" action="{% url 'verify-login-by-authenticator' %}" class="verify-form">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="otp">Verification Code</label>
+            <input type="text" id="otp" name="otp" placeholder="Enter 6-digit code" maxlength="6" pattern="\d{6}" required autofocus>
+        </div>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <button type="submit" class="btn-primary">Verify</button>
+    </form>
+</div>
+{% endblock %}

@@ -71,31 +71,53 @@
     </section>
 
     <!-- Security Logs Section -->
-    <section class="section" id="view-security-logs" {% if section != 'logs' %}hidden{% endif %}>
-      <h2>Security Logs</h2>
-      <table>
-        <thead>
+  <section class="section" id="view-security-logs" {% if section != 'logs' %}hidden{% endif %}>
+    <h2>Security Logs</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Action</th>
+          <th>Time</th>
+          <th>IP</th>
+          <th>Device</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
           <tr>
-            <th>User</th><th>Role</th><th>Action</th><th>Time</th><th>IP</th><th>Device</th><th>Details</th>
+            <td>
+              {% if log.user %}
+                {{ log.user.phone|default_if_none:"-" }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if log.user %}
+              {{ log.user.role|default_if_none:"-" }}
+            {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>{{ log.event_type|default_if_none:"-" }}</td>
+            <td>{{ log.timestamp|date:"Y-m-d H:i" }}</td>
+            <td>{{ log.ip_address|default_if_none:"-" }}</td>
+            <td>{{ log.user_agent|default_if_none:"-"|truncatechars:30 }}</td>
+            <td>{{ log.details|default_if_none:"-"|truncatechars:50 }}</td>
           </tr>
-        </thead>
-        <tbody>
-          {% for log in logs %}
-            <tr>
-              <td>{{ log.user.phone|default:"-" }}</td>
-              <td>{{ log.user.role|default:"-" }}</td>
-              <td>{{ log.event_type }}</td>
-              <td>{{ log.timestamp|date:"Y-m-d H:i" }}</td>
-              <td>{{ log.ip_address }}</td>
-              <td>{{ log.user_agent|truncatechars:30 }}</td>
-              <td>{{ log.details|truncatechars:50 }}</td>
-            </tr>
-          {% empty %}
-            <tr><td colspan="7">No logs found.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        {% empty %}
+          <tr>
+            <td colspan="7" class="text-center">No Logs Found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     </section>
+
 
     <!-- OTP Settings Section -->
     <section class="section" id="manage-otps" {% if section != 'manage-otps' %}hidden{% endif %}>

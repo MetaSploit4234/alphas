@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Reset Password via Authenticator{% endblock %}
+{% block title %}Reset via Authenticator{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'core/css/reset-method.css' %}">
@@ -20,43 +20,43 @@
   <form class="reset-form" method="POST">
     {% csrf_token %}
 
-    {% if not show_password_fields %}
-      
-      <label for="totp_code">Authenticator Code</label>
-      <input type="text" name="totp_code" id="totp_code" placeholder="Enter 6-digit code from your app" maxlength="6" pattern="\d{6}" required>
+    {% if not show_otp_form %}
+      <!-- Step 1: Enter Email to identify account -->
+      <label for="email">Email Address</label>
+      <input type="email" name="email" id="auth-email" placeholder="Enter your email"
+             value="{{ email_value }}" required>
 
-      <button type="submit" name="action" value="verify_totp" class="btn">
-        Verify Code
-      </button>
+      <button type="submit" name="action" value="get_auth_challenge" class="btn">Verify with Authenticator</button>
 
     {% else %}
+      <!-- Step 2: Authenticator Code and New Password -->
+      <label for="auth_code">Authenticator Code</label>
+      <input type="text" name="auth_code" id="auth-code" placeholder="Enter code from app" required>
 
       <label for="password">New Password</label>
-      <input type="password" name="password" id="auth-new-password" placeholder="Create new password" required>
+      <input type="password" name="password" id="auth-new-password" placeholder="Create password" required>
 
       <label for="confirm_password">Confirm Password</label>
-      <input type="password" name="confirm_password" id="auth-confirm-password" placeholder="Confirm new password" required>
+      <input type="password" name="confirm_password" id="auth-confirm-password" placeholder="Confirm password" required>
 
       <div class="checkbox-group">
         <input type="checkbox" id="auth-show-pass">
         <label for="auth-show-pass">Show password</label>
       </div>
 
-      <button type="submit" name="action" value="update_password" class="btn">
-        Reset Password
-      </button>
+      <button type="submit" name="action" value="verify_auth_code" class="btn">Reset Password</button>
     {% endif %}
   </form>
 </div>
 
 <script>
-  const toggle = document.getElementById("auth-show-pass");
+  const authToggle = document.getElementById("auth-show-pass");
   const newPass = document.getElementById("auth-new-password");
   const confirmPass = document.getElementById("auth-confirm-password");
 
-  if (toggle) {
-    toggle.addEventListener("change", () => {
-      const type = toggle.checked ? "text" : "password";
+  if (authToggle) {
+    authToggle.addEventListener("change", () => {
+      const type = authToggle.checked ? "text" : "password";
       newPass.type = type;
       confirmPass.type = type;
     });

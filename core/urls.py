@@ -13,7 +13,8 @@ urlpatterns = [
 
     # OTP Verifications
     path('verify-signup/', views.verify_signup_view, name='verify-signup'),
-    path('verify-login/', views.verify_login_view, name='verify-login'),
+    path('verify-login-by-authenticator/', views.verify_login_by_authenticator_view, name='verify-login-by-authenticator'),
+    path('verify-login-by-email/', views.verify_login_by_email_view, name='verify-login-by-email'),
     path('verify-reset-email/', views.verify_reset_email_otp_view, name='verify-reset-email'),
 
     # Password recovery / reset
@@ -21,10 +22,13 @@ urlpatterns = [
     path('reset-by-email/', views.reset_by_email_view, name='reset-by-email'),
     path('reset-by-authenticator/', views.reset_by_authenticator_view, name='reset-by-authenticator'),
     path('update-password/', views.update_password_view, name='update-password'),
+    path('update-2fa-method/', views.update_2fa_method_view, name='update-2fa-method'),
 
     # Password change (custom form)
     path('change-password/', views.change_password_view, name='change_password'),
-
+    
+    #access denied
+    path('access-denied/', views.access_denied_view, name='access-denied'),
     # Admin Dashboard & tools
     path('admin-dashboard/', views.admin_dashboard_view, name='admin-dashboard'),
     path('admin-tools/elevate-roles/', views.admin_elevate_roles_view, name='admin-elevate-roles'),

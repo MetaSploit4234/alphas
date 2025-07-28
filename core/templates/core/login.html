@@ -5,6 +5,13 @@
 <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
 <div class="login-wrapper">
     <h2>Login</h2>
+
+    {% if method %}
+        <div class="info">
+            <p>Your selected 2FA method is: <strong>{{ method|capfirst }}</strong></p>
+        </div>
+    {% endif %}
+
     <form id="login-form" action="{% url 'login' %}" method="POST" class="login-form">
         {% csrf_token %}
         <div class="input-group">
@@ -28,17 +35,18 @@
 
         <button type="submit" class="btn">Login</button>
     </form>
-    {% if messages%}
+
+    {% if messages %}
         <div class="error" id="error-global"></div>
         {% for message in messages %}
-            {{ message}}
-        {% endfor%}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
     {% endif %}
+
     <div class="links">
         <a href="{% url 'select-reset-method' %}">Reset password?</a>
         <a href="{% url 'register' %}">Create Account?</a>
     </div>
-
 </div>
 <script src="{% static 'core/js/login.js' %}"></script>
 {% endblock %}
